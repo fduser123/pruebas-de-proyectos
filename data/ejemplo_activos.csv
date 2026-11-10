@@ -1,0 +1,5 @@
+nombre,descripcion,tipo,clasificacion,valor,critico
+Core Banking, Sistema central de operaciones, sistema, restringido, alto, true
+Portal Web Clientes, Portal de banca en linea, sistema, confidencial, alto, true
+Base de Datos Clientes, Repositorio de datos de clientes, sistema, restringido, alto, true
+Politica de Accesos, Documento de politicas, informacion, confidencial, medio, false
