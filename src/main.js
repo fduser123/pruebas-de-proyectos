@@ -80,12 +80,30 @@ if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   recognition = new SR();
   recognition.lang = 'en-US';
-  recognition.interimResults = false;
+  recognition.interimResults = true;
+  recognition.continuous = false;
+  recognition.maxAlternatives = 1;
+  let finalSent = false;
   recognition.onresult = (ev) => {
-    const text = ev.results[0][0].transcript;
-    appendMessage(chatLog, text, 'user');
-    chat.respond(text);
+    let interim = '';
+    let finalText = '';
+    for (let i = ev.resultIndex; i < ev.results.length; i++) {
+      const t = ev.results[i][0].transcript;
+      if (ev.results[i].isFinal) finalText += t;
+      else interim += t;
+    }
+    if (interim) setStatus(statusEl, `Escuchando: ${interim}`);
+    if (finalText && !finalSent) {
+      finalSent = true;
+      const text = finalText.trim();
+      if (text) {
+        appendMessage(chatLog, text, 'user');
+        chat.respond(text);
+      }
+    }
   };
+  recognition.onstart = () => { finalSent = false; };
+  recognition.onspeechend = () => { try { recognition.stop(); } catch (e) {} };
   recognition.onend = () => {
     micBig?.classList.remove('listening');
     setStatus(statusEl, 'Listo');

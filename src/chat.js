@@ -15,7 +15,7 @@ export class Chat {
 
   async respond(text) {
     this.onStatus?.('Pensando…');
-    await new Promise((r) => setTimeout(r, 400 + Math.random() * 400));
+    await new Promise((r) => setTimeout(r, 80 + Math.random() * 120));
     const reply = REPLIES[Math.floor(Math.random() * REPLIES.length)];
     this.history.push({ user: text, bot: reply });
     this.onMessage?.(reply);
