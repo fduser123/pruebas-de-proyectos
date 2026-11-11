@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Avatar Conversacional Low-Poly</title>
+  <meta name="description" content="Avatar 3D conversacional low-poly creado con Three.js. Habla, escucha y cambia de entorno." />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/src/styles.css" />
+</head>
+<body>
+  <header class="nav">
+    <div class="brand">Avatar<span>LowPoly</span></div>
+    <nav class="nav-links">
+      <a href="#features">Características</a>
+      <a href="#how">Cómo funciona</a>
+      <a href="#demo">Demo</a>
+    </nav>
+    <a class="btn btn-primary" href="#demo">Probar ahora</a>
+  </header>
+
+  <main>
+    <section class="hero" id="hero">
+      <div class="hero-text">
+        <h1>Un avatar que <span class="accent">conversa</span> contigo</h1>
+        <p>Avatar 3D low-poly creado enteramente con Three.js. Habla, escucha y se adapta a distintos entornos: un parque en primavera, verano, otoño o invierno.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#demo">Hablar con el avatar</a>
+          <a class="btn btn-ghost" href="#features">Ver características</a>
+        </div>
+        <div class="env-selector" id="env-selector">
+          <span>Entorno:</span>
+          <button data-env="spring" class="env-btn active">🌸 Primavera</button>
+          <button data-env="summer" class="env-btn">☀️ Verano</button>
+          <button data-env="autumn" class="env-btn">🍂 Otoño</button>
+          <button data-env="winter" class="env-btn">❄️ Invierno</button>
+        </div>
+      </div>
+      <div class="hero-canvas-wrap">
+        <canvas id="hero-canvas"></canvas>
+        <div class="canvas-poster" id="canvas-poster">Cargando avatar…</div>
+      </div>
+    </section>
+
+    <section class="features" id="features">
+      <h2>Características</h2>
+      <div class="feature-grid">
+        <article class="card"><h3>🗣️ Voz neural</h3><p>Texto a voz con HeadTTS (Kokoro) y sincronización de labios.</p></article>
+        <article class="card"><h3>🪶 Ligero</h3><p>Low-poly, bundle mínimo, sin frameworks pesados.</p></article>
+        <article class="card"><h3>🌍 Entornos</h3><p>Parque en 4 estaciones, cambio instantáneo.</p></article>
+        <article class="card"><h3>🔒 Privado</h3><p>Inferencia en el navegador, sin enviar texto a servidores.</p></article>
+      </div>
+    </section>
+
+    <section class="how" id="how">
+      <h2>Cómo funciona</h2>
+      <ol class="steps">
+        <li><strong>Escucha</strong> tu mensaje por voz o texto.</li>
+        <li><strong>Procesa</strong> y genera la respuesta.</li>
+        <li><strong>Habla</strong> sincronizando la boca del avatar.</li>
+      </ol>
+    </section>
+
+    <section class="demo" id="demo">
+      <h2>Demo interactiva</h2>
+      <div class="demo-layout">
+        <canvas id="demo-canvas" class="demo-canvas"></canvas>
+        <div class="chat-panel">
+          <div class="chat-log" id="chat-log"></div>
+          <form id="chat-form" class="chat-form">
+            <input id="chat-input" type="text" placeholder="Escribe o pulsa el micrófono…" autocomplete="off" />
+            <button type="button" id="mic-btn" class="btn btn-ghost" title="Micrófono">🎤</button>
+            <button type="submit" class="btn btn-primary">Enviar</button>
+          </form>
+          <div class="status" id="status">Listo</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <h2>¿Listo para conversar?</h2>
+      <a class="btn btn-primary" href="#demo">Empezar ahora</a>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Avatar Low-Poly · Three.js + HeadTTS · MIT</p>
+  </footer>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
