@@ -21,6 +21,10 @@ const chatLog = document.getElementById('chat-log');
 const chatForm = document.getElementById('chat-form');
 const chatInput = document.getElementById('chat-input');
 const statusEl = document.getElementById('status');
+const trainBtn = document.getElementById('train-btn');
+const aiStatus = document.getElementById('ai-status');
+
+const ai = { trained: false };
 
 const speech = new SpeechEngine({
   onMouth: (v) => { hero.setMouth(v); demo.setMouth(v); },
@@ -36,7 +40,59 @@ const chat = new Chat({
     });
   },
   onStatus: (t) => setStatus(statusEl, t),
+  ai,
+  onEnvChange: (key) => {
+    hero.applyEnvironment(key);
+    demo.applyEnvironment(key);
+    const btn = [...document.querySelectorAll('.env-btn')].find((b) => b.dataset.env === key);
+    if (btn) {
+      document.querySelectorAll('.env-btn').forEach((b) => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+  },
 });
+
+async function trainAI(instance) {
+  const target = instance || ai;
+  setStatus(statusEl, 'Entrenando IA…');
+  if (aiStatus) aiStatus.textContent = 'IA: entrenando…';
+  trainBtn.disabled = true;
+  try {
+    await target.train((epoch, total, acc) => {
+      if (aiStatus) aiStatus.textContent = `IA: época ${epoch}/${total}`;
+    });
+    if (aiStatus) aiStatus.textContent = 'IA: entrenada ✓';
+    setStatus(statusEl, 'IA entrenada');
+  } catch (e) {
+    console.error(e);
+    if (aiStatus) aiStatus.textContent = 'IA: error';
+    setStatus(statusEl, 'Error al entrenar');
+  } finally {
+    trainBtn.disabled = false;
+  }
+}
+trainBtn?.addEventListener('click', () => trainAI());
+
+// Auto-load or train (lazy-load TensorFlow.js)
+(async () => {
+  try {
+    const { IntentAI } = await import('./ai.js');
+    const instance = new IntentAI();
+    const loaded = await instance.load();
+    ai.trained = instance.trained;
+    // replace placeholder with real instance
+    Object.assign(ai, instance);
+    chat.ai = ai;
+    if (loaded) {
+      if (aiStatus) aiStatus.textContent = 'IA: cargada ✓';
+    } else {
+      setTimeout(() => { trainAI(instance); }, 1200);
+    }
+  } catch (e) {
+    console.error('AI load failed:', e);
+    if (aiStatus) aiStatus.textContent = 'IA: no disponible';
+  }
+})();
 
 // Env selector
 const envButtons = [...document.querySelectorAll('.env-btn')];

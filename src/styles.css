@@ -133,6 +133,8 @@ a { color: inherit; text-decoration: none; }
   background: var(--bg-soft); color: var(--text);
 }
 .status { font-size: 0.8rem; color: var(--muted); text-align: center; }
+.ai-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.ai-status { font-size: 0.75rem; color: var(--muted); }
 
 .cta { text-align: center; }
 .cta h2 { margin-bottom: 16px; }
