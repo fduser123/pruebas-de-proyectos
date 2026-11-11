@@ -20,7 +20,6 @@ requestAnimationFrame(() => { if (poster) poster.classList.add('hidden'); });
 const chatLog = document.getElementById('chat-log');
 const chatForm = document.getElementById('chat-form');
 const chatInput = document.getElementById('chat-input');
-const micBtn = document.getElementById('mic-btn');
 const statusEl = document.getElementById('status');
 
 const speech = new SpeechEngine({
@@ -56,7 +55,26 @@ chatForm.addEventListener('submit', (e) => {
   chat.respond(text);
 });
 
-// Mic
+// Mode switching
+const modeTabs = document.getElementById('mode-tabs');
+const micMode = document.getElementById('mic-mode');
+const micBig = document.getElementById('mic-big');
+let currentMode = 'chat';
+function setMode(mode) {
+  currentMode = mode;
+  [...modeTabs.querySelectorAll('.mode-btn')].forEach((b) => b.classList.toggle('active', b.dataset.mode === mode));
+  chatForm.classList.toggle('hidden', mode !== 'chat');
+  micMode.hidden = mode !== 'mic';
+  setStatus(statusEl, mode === 'chat' ? 'Modo chat' : 'Modo micrófono');
+}
+modeTabs.addEventListener('click', (e) => {
+  const btn = e.target.closest('.mode-btn');
+  if (!btn) return;
+  setMode(btn.dataset.mode);
+});
+setMode('chat');
+
+// Speech recognition
 let recognition = null;
 if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -65,16 +83,21 @@ if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
   recognition.interimResults = false;
   recognition.onresult = (ev) => {
     const text = ev.results[0][0].transcript;
-    chatInput.value = text;
-    chatForm.requestSubmit();
+    appendMessage(chatLog, text, 'user');
+    chat.respond(text);
   };
-  recognition.onend = () => setStatus(statusEl, 'Listo');
+  recognition.onend = () => {
+    micBig?.classList.remove('listening');
+    setStatus(statusEl, 'Listo');
+  };
 }
-micBtn.addEventListener('click', () => {
+function startListening() {
   if (!recognition) { setStatus(statusEl, 'Micrófono no soportado'); return; }
   setStatus(statusEl, 'Escuchando…');
-  try { recognition.start(); } catch (e) { setStatus(statusEl, 'Error de micrófono'); }
-});
+  micBig?.classList.add('listening');
+  try { recognition.start(); } catch (e) { setStatus(statusEl, 'Error de micrófono'); micBig?.classList.remove('listening'); }
+}
+micBig?.addEventListener('click', startListening);
 
 // Lazy init speech on first interaction
 let speechInited = false;
@@ -84,7 +107,7 @@ function ensureSpeech() {
   speech.init();
 }
 chatForm.addEventListener('focusin', ensureSpeech, { once: true });
-micBtn.addEventListener('click', ensureSpeech, { once: true });
+micBig?.addEventListener('click', ensureSpeech, { once: true });
 
 // Pause renders when tab hidden
 document.addEventListener('visibilitychange', () => {

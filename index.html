@@ -66,12 +66,19 @@
       <div class="demo-layout">
         <canvas id="demo-canvas" class="demo-canvas"></canvas>
         <div class="chat-panel">
+          <div class="mode-tabs" id="mode-tabs">
+            <button class="mode-btn active" data-mode="chat">💬 Modo chat</button>
+            <button class="mode-btn" data-mode="mic">🎤 Modo micrófono</button>
+          </div>
           <div class="chat-log" id="chat-log"></div>
-          <form id="chat-form" class="chat-form">
-            <input id="chat-input" type="text" placeholder="Escribe o pulsa el micrófono…" autocomplete="off" />
-            <button type="button" id="mic-btn" class="btn btn-ghost" title="Micrófono">🎤</button>
+          <form id="chat-form" class="chat-form chat-mode">
+            <input id="chat-input" type="text" placeholder="Escribe un mensaje…" autocomplete="off" />
             <button type="submit" class="btn btn-primary">Enviar</button>
           </form>
+          <div class="mic-mode" id="mic-mode" hidden>
+            <button id="mic-big" class="mic-big" title="Hablar">🎤</button>
+            <p class="mic-hint">Pulsa para hablar. El avatar te responderá por voz.</p>
+          </div>
           <div class="status" id="status">Listo</div>
         </div>
       </div>
