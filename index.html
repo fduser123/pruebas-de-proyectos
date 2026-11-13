@@ -13,7 +13,6 @@
     <div class="brand">Avatar<span>LowPoly</span></div>
     <nav class="nav-links">
       <a href="#features">Características</a>
-      <a href="#how">Cómo funciona</a>
       <a href="#demo">Demo</a>
     </nav>
     <a class="btn btn-primary" href="#demo">Probar ahora</a>
@@ -52,15 +51,6 @@
       </div>
     </section>
 
-    <section class="how" id="how">
-      <h2>Cómo funciona</h2>
-      <ol class="steps">
-        <li><strong>Escucha</strong> tu mensaje por voz o texto.</li>
-        <li><strong>Procesa</strong> y genera la respuesta.</li>
-        <li><strong>Habla</strong> sincronizando la boca del avatar.</li>
-      </ol>
-    </section>
-
     <section class="demo" id="demo">
       <h2>Demo interactiva</h2>
       <div class="demo-layout">
@@ -73,6 +63,24 @@
           <div class="ai-bar">
             <button id="train-btn" class="btn btn-ghost">🧠 Entrenar IA</button>
             <span id="ai-status" class="ai-status">IA: no entrenada</span>
+          </div>
+          <div class="example-bar">
+            <input id="ex-text" type="text" placeholder="Texto de ejemplo…" />
+            <select id="ex-label">
+              <option value="saludo">saludo</option>
+              <option value="despedida">despedida</option>
+              <option value="agradecimiento">agradecimiento</option>
+              <option value="ayuda">ayuda</option>
+              <option value="identidad">identidad</option>
+              <option value="emocion_triste">emocion_triste</option>
+              <option value="emocion_feliz">emocion_feliz</option>
+              <option value="emergencia">emergencia</option>
+              <option value="entorno_primavera">entorno_primavera</option>
+              <option value="entorno_verano">entorno_verano</option>
+              <option value="entorno_otonio">entorno_otonio</option>
+              <option value="entorno_invierno">entorno_invierno</option>
+            </select>
+            <button id="ex-add" class="btn btn-ghost">+ Ejemplo</button>
           </div>
           <div class="chat-log" id="chat-log"></div>
           <form id="chat-form" class="chat-form chat-mode">
@@ -95,7 +103,7 @@
   </main>
 
   <footer class="footer">
-    <p>Avatar Low-Poly · Three.js + HeadTTS · MIT</p>
+    <p>Avatar Low-Poly</p>
   </footer>
 
   <script type="module" src="/src/main.js"></script>

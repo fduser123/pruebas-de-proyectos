@@ -58,8 +58,14 @@ async function trainAI(instance) {
   if (aiStatus) aiStatus.textContent = 'IA: entrenando…';
   trainBtn.disabled = true;
   try {
-    await target.train((epoch, total, acc) => {
-      if (aiStatus) aiStatus.textContent = `IA: época ${epoch}/${total}`;
+    await target.train((p) => {
+      if (p?.stage === 'train') {
+        if (aiStatus) aiStatus.textContent = `IA: época ${p.epoch}/${p.total}`;
+      } else if (p?.stage === 'model') {
+        if (aiStatus) aiStatus.textContent = `IA: descargando modelo… ${Math.round((p.progress?.progress ?? 0) * 100)}%`;
+      } else if (p?.stage === 'embed') {
+        if (aiStatus) aiStatus.textContent = 'IA: calculando embeddings…';
+      }
     });
     if (aiStatus) aiStatus.textContent = 'IA: entrenada ✓';
     setStatus(statusEl, 'IA entrenada');
@@ -73,11 +79,25 @@ async function trainAI(instance) {
 }
 trainBtn?.addEventListener('click', () => trainAI());
 
+const exText = document.getElementById('ex-text');
+const exLabel = document.getElementById('ex-label');
+const exAdd = document.getElementById('ex-add');
+exAdd?.addEventListener('click', () => {
+  const t = exText?.value?.trim();
+  const l = exLabel?.value;
+  if (!t) return;
+  if (ai && typeof ai.addExample === 'function') {
+    ai.addExample(t, l);
+    if (exText) exText.value = '';
+    setStatus(statusEl, `Ejemplo añadido (${ai.examples?.length ?? 0} total). Reentrena para aprender.`);
+  }
+});
+
 // Auto-load or train (lazy-load TensorFlow.js)
 (async () => {
   try {
-    const { IntentAI } = await import('./ai.js');
-    const instance = new IntentAI();
+    const { SituationAI } = await import('./ai.js');
+    const instance = new SituationAI();
     const loaded = await instance.load();
     ai.trained = instance.trained;
     // replace placeholder with real instance
