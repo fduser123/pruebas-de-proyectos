@@ -82,6 +82,15 @@ trainBtn?.addEventListener('click', () => trainAI());
 const exText = document.getElementById('ex-text');
 const exLabel = document.getElementById('ex-label');
 const exAdd = document.getElementById('ex-add');
+// Friendly error overlay for runtime failures
+window.addEventListener('error', (e) => {
+  const box = document.createElement('div');
+  box.style.cssText = 'position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:#2b1a10;color:#fef3c7;padding:12px 18px;border-radius:999px;border:1px solid rgba(245,158,11,.4);box-shadow:0 8px 24px rgba(0,0,0,.4);z-index:9999;font-size:.9rem;';
+  box.textContent = '⚠️ Algo falló. Reintentando…';
+  document.body.appendChild(box);
+  setTimeout(() => box.remove(), 4000);
+});
+
 exAdd?.addEventListener('click', () => {
   const t = exText?.value?.trim();
   const l = exLabel?.value;

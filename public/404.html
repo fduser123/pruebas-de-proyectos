@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 · Página no encontrada</title>
+  <style>
+    :root {
+      --bg: #1a0f0a;
+      --bg2: #2b1a10;
+      --leaf1: #f59e0b;
+      --leaf2: #ef4444;
+      --leaf3: #f97316;
+      --leaf4: #eab308;
+      --text: #fef3c7;
+      --muted: #d6a77a;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: radial-gradient(1200px 700px at 50% 30%, #3b2416 0%, var(--bg) 70%);
+      color: var(--text);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .scene { position: relative; text-align: center; padding: 40px 24px; z-index: 2; }
+    h1 { font-size: clamp(4rem, 12vw, 8rem); line-height: 1; font-weight: 800;
+      background: linear-gradient(135deg, var(--leaf1), var(--leaf2));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      filter: drop-shadow(0 4px 20px rgba(239,68,68,.4));
+    }
+    h2 { font-size: 1.4rem; margin: 12px 0 8px; }
+    p { color: var(--muted); max-width: 420px; margin: 0 auto 24px; }
+    a.btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 26px; border-radius: 999px; border: none;
+      background: linear-gradient(135deg, var(--leaf1), var(--leaf3));
+      color: #1a0f0a; font-weight: 600; text-decoration: none;
+      box-shadow: 0 8px 24px rgba(245,158,11,.35);
+      transition: transform .2s, box-shadow .2s;
+    }
+    a.btn:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(245,158,11,.5); }
+
+    /* Falling leaves (CSS only) */
+    .leaves { position: fixed; inset: 0; pointer-events: none; z-index: 1; }
+    .leaf {
+      position: absolute; top: -10vh; width: 18px; height: 18px;
+      background: var(--leaf3); border-radius: 60% 40% 70% 30% / 50% 60% 40% 50%;
+      opacity: .85; animation: fall linear infinite;
+    }
+    .leaf.l1 { left: 10%; background: var(--leaf1); animation-duration: 6s; animation-delay: 0s; }
+    .leaf.l2 { left: 25%; background: var(--leaf2); animation-duration: 7.5s; animation-delay: 1s; width: 14px; height: 14px; }
+    .leaf.l3 { left: 40%; background: var(--leaf4); animation-duration: 5.5s; animation-delay: 2s; width: 20px; height: 20px; }
+    .leaf.l4 { left: 55%; background: var(--leaf3); animation-duration: 8s; animation-delay: .5s; }
+    .leaf.l5 { left: 70%; background: var(--leaf1); animation-duration: 6.5s; animation-delay: 1.5s; width: 16px; height: 16px; }
+    .leaf.l6 { left: 85%; background: var(--leaf2); animation-duration: 7s; animation-delay: 2.5s; width: 12px; height: 12px; }
+    @keyframes fall {
+      0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+      10% { opacity: .85; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* Ground */
+    .ground {
+      position: fixed; bottom: 0; left: 0; right: 0; height: 120px;
+      background: linear-gradient(180deg, transparent, #1a0f0a);
+      z-index: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="leaves">
+    <div class="leaf l1"></div>
+    <div class="leaf l2"></div>
+    <div class="leaf l3"></div>
+    <div class="leaf l4"></div>
+    <div class="leaf l5"></div>
+    <div class="leaf l6"></div>
+  </div>
+  <div class="ground"></div>
+  <div class="scene">
+    <h1>404</h1>
+    <h2>Esta página se cayó como una hoja de otoño</h2>
+    <p>No encontramos lo que buscabas. Vuelve al inicio y sigue explorando el parque.</p>
+    <a class="btn" href="/">Volver al inicio</a>
+  </div>
+</body>
+</html>
